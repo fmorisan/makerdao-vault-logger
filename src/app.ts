@@ -2,12 +2,24 @@ import * as ethers from 'ethers'
 import CDP_MANAGER_ABI from './cdpmanager.abi.json'
 import PROXY_ABI from './proxy.abi.json'
 import { PrismaClient } from '@prisma/client'
+import api from './api'
 
-const CDP_MANAGER_ADDR = process.env.GOERLI?"0xdcBf58c9640A7bd0e062f8092d70fb981Bb52032":"0x5ef30b9986345249bc32d8928B7ee64DE9435E39"
+import dotenv from 'dotenv'
+dotenv.config()
+
+
+const CDP_MANAGER_ADDR = process.env.GOERLI?
+    "0xdcBf58c9640A7bd0e062f8092d70fb981Bb52032"
+    : "0x5ef30b9986345249bc32d8928B7ee64DE9435E39";
 
 const prisma = new PrismaClient()
 
-const provider = new ethers.providers.AlchemyProvider(process.env.GOERLI?"goerli":"mainnet", "qbi9x5mKPZEtl6eUwBjVFUrfSpBpfCoo")
+const provider = new ethers.providers.AlchemyProvider(
+    process.env.GOERLI?
+    "goerli"
+    : "mainnet",
+    process.env.ALCHEMY_KEY
+)
 const manager = new ethers.Contract(CDP_MANAGER_ADDR, CDP_MANAGER_ABI, provider)
 
 const main = async () => {
@@ -65,6 +77,7 @@ const main = async () => {
 
             console.log(`logged new cdp from ${address}: txhash ${cdp.create_tx}`)
         })
+        api.listen(process.env.PORT, () => console.log(`API up and running at :${process.env.PORT}`))
     })
 }
 
