@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE "Address" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "address" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Cdp" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "create_tx" TEXT NOT NULL,
+    "ownerId" INTEGER NOT NULL,
+    CONSTRAINT "Cdp_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Address" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
