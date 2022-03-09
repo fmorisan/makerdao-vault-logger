@@ -53,7 +53,8 @@ const main = async () => {
                 data: {
                     ownerId: addr.id,
                     create_tx: log.transactionHash,
-                    block_number: log.blockNumber
+                    block_number: log.blockNumber,
+                    datetime_created: new Date().toISOString()
                 }
             })
 
