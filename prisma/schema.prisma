@@ -17,9 +17,10 @@ model Address {
 }
 
 model Cdp {
-  id            Int     @id @default(autoincrement())
-  create_tx     String
-  owner         Address @relation(fields: [ownerId], references: [id])
-  ownerId       Int
-  block_number  Int
+  id                Int     @id @default(autoincrement())
+  create_tx         String
+  owner             Address @relation(fields: [ownerId], references: [id])
+  ownerId           Int
+  block_number      Int
+  datetime_created  DateTime?
 }
