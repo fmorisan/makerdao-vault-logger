@@ -1,5 +1,6 @@
 import express from 'express'
 import { PrismaClient } from "@prisma/client"
+import { allCDPs, dateFilteredCDPs } from './endpoints/cdps'
 const app = express()
 
 app.use(express.json())
@@ -14,5 +15,8 @@ app.get("/addresses",
         prisma.$disconnect()
     }
 )
+
+app.get("/cdp", allCDPs)
+app.get("/cdpFilter", dateFilteredCDPs)
 
 export default app
