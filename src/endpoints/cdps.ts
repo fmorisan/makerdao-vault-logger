@@ -15,25 +15,20 @@ const DateFilteredCDPsArgs = Joi.object({
 })
 
 export async function dateFilteredCDPs(req: express.Request, res: express.Response) {
-    const prisma = new PrismaClient({
-        log: [
-            "query"
-        ]
-    })
+    const prisma = new PrismaClient()
 
     try {
         const args = await DateFilteredCDPsArgs.validateAsync(req.query)
-
-        console.log(
-            `from ${args.from}; to ${args.to}`,
-            args
-        )
 
         // FIXME: this should definitely use native SQL filtering
         // but for some reason prisma doesn't execute queries
         // the way I expect it to do so.
 
-        const cdps = await prisma.cdp.findMany()
+        const cdps = await prisma.cdp.findMany({
+            include: {
+                owner: true
+            }
+        })
 
         const filtered = cdps.filter(cdp => 
             cdp.datetime_created
